@@ -3,9 +3,9 @@
 ## Learning Goals
 
 - State the cause of the lost context bug
-- Uses a `thisArg` to avoid the lost context bug
-- Uses a closure to regain access to the lost context
-- Uses an arrow function expression to create a function without its own
+- Use a `thisArg` to avoid the lost context bug
+- Use a closure to regain access to the lost context
+- Use an arrow function expression to create a function without its own
   context
 
 ## Introduction
@@ -162,14 +162,18 @@ this problem. The three most common are:
 2. Use a closure
 3. Use (something new) the arrow function expression
 
-## Solution 1:  Uses a `thisArg` to avoid the lost context bug
+## Solution 1:  Use a `thisArg` to avoid the lost context bug
 
 Per the [forEach documentation][fed], we could pass a `thisArg` argument to
 `forEach` as its second argument, after the function expression, and things
 should work. And they do.
 
-> **ASIDE**: This pattern works for `forEach` as well as `map`, `reduce` and
-> all the other collection-processing methods.
+> **ASIDE**: Passing a `thisArg` is an option for the `forEach` as well as
+> `map`, `reduce` and all the other collection-processing methods. The order
+> might vary slightly. It's **completely OK** to look up the documentation to
+> make make sure you're sending things in the proper order. Great developers
+> are always _memorize_ concepts and understanding but _look up_ argument order
+> and strange syntax.
 
 ```js
 let configuration = {
@@ -252,7 +256,7 @@ In the "Context Lab" we used this approach to make sure that the reduce
 function in `allWagesFor`. Take a look at the implementation and see how
 binding `reduce` saved you from falling into this bug.
 
-## Solution 2: Uses a Closure to Regain Access to the Lost Context
+## Solution 2: Use a Closure to Regain Access to the Lost Context
 
 In the previous section, we noted that we were going to take the `this` that
 `printCard` has access to and re-pass it either as a `thisArg` to `forEach`
@@ -302,7 +306,7 @@ our third, and, as of 2019, the most popular option. Nevertheless, you will see
 all the other approaches used in framework code (e.g. React) and in other
 codebases.
 
-## Solution 3: Uses an Arrow Function Expression to Create a Function Without Its Own Context
+## Solution 3: Use an Arrow Function Expression to Create a Function Without Its Own Context
 
 The arrow function expression (often simply called an "arrow function") is
 yet another way of writing a function expression. They look different from
@@ -355,22 +359,8 @@ operation with it, and return the result, arrow functions have two shortcuts:
 * If there is only one expression, you don't need to wrap it in `{}` and the result of that expression is automatically returned.
 * Anti-Shortcut: If you *DO* use `{}`, you must explicitly `return` the return value
 
-As a result, this longer expression (with context shift):
-
-```js
-[1,2,3].reduce(function(memo, elem){
-    return memo + elem * 10
-}, 0) //=> 60
-```
-
-Can become this much shorter call with ***no*** context shift:
-
-```js
-[1,2,3].reduce((memo, elem) => memo + elem * 10, 0) //=> 60
-```
-
-Thus Thor and Loki can fix their problem and wish their father a happy
-birthday most elegantly with the following code:
+Thus Thor and Loki can fix their problem and wish their father a happy birthday
+most elegantly with the following code:
 
 ```js
 
@@ -390,6 +380,9 @@ let configuration = {
 let printCard = function() {
     console.log(this.frontContent)
     console.log(this.insideContent)
+    // Wow! Elegant! And notice the arrow function's `this` is the same
+    // this that printCard has by virtue of configuration being passed
+    // in as a thisArg
     this.signatories.forEach(s => console.log(`${this.closing[s]}, ${s}`)
     )
 }
