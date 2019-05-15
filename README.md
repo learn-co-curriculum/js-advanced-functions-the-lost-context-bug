@@ -13,12 +13,12 @@
 In the previous lessons we've learned about record-oriented programming and
 how, by using methods like `call`, `apply`, and `bind`, we can change the
 default context of a function from the global context (`window` in the
-browser, `global` in NodejS) as we see fit. That's an awesome power.
+browser, `global` in NodeJS) as we see fit. That's an awesome power.
 
-However, sometimes the rules of function execution interact in a way that
-leads to ***one particularly surprising bug***: the lost context bug. It's
-impossible to list _all_ the places where this bug could be triggered, but if
-you encounter something "strange" like we describe below, you'll know how to
+However, sometimes the rules of function execution interact in a way that leads
+to ***one particularly surprising bug***: the lost context bug. It's impossible
+to list _all_ the places where this bug could be triggered, but if you
+encounter something "strange" like what we describe below, you'll know how to
 proceed.
 
 ## Scenario
@@ -155,8 +155,8 @@ the function expression passed to `forEach` is the global object (`window` or
 
 Remember the rules of function invocation. A function defaults to getting the
 global scope as _execution context_. It **does not** get its parent function's
-_execution context_ automatically. There are many ways for the programmers to
-solve this problem. The three most common are:
+_execution context_ automatically. There are many ways for programmers to solve
+this problem. The three most common are:
 
 1. Pass a `thisArg`
 2. Use a closure
@@ -206,7 +206,7 @@ printCard.call(configuration)
 # Your son, Loki
 ```
 
-In the call to `forEach` we tell it to use for its context the context that
+In the call to `forEach`, we tell it to use for its context the context that
 `printCard` has as `this`.
 
 A slight variation on this idea would be to invoke `bind` on the function
@@ -254,7 +254,7 @@ binding `reduce` saved you from falling into this bug.
 
 ## Solution 2: Uses a Closure to Regain Access to the Lost Context
 
-In the previous section we noted that we were going to take the `this` that
+In the previous section, we noted that we were going to take the `this` that
 `printCard` has access to and re-pass it either as a `thisArg` to `forEach`
 **or** as the context for `bind`. Since we have an ability to "point to" that
 context, we could assign that value to a variable and leverage function-level
@@ -298,7 +298,9 @@ inside of `forEach` to
 2. _Not_ require us to do some extra work with using `bind` or a `thisArg`.
 
 In ES6, JavaScript gave us an answer: the "arrow function expression." This is
-our third, and, as of 2019, most popular option.
+our third, and, as of 2019, the most popular option. Nevertheless, you will see
+all the other approaches used in framework code (e.g. React) and in other
+codebases.
 
 ## Solution 3: Uses an Arrow Function Expression to Create a Function Without Its Own Context
 
