@@ -304,11 +304,28 @@ codebases.
 
 ## Solution 3: Uses an Arrow Function Expression to Create a Function Without Its Own Context
 
-The arrow function expression is yet another way of writing a function
-expression. They look different from "old style" function expressions, but the
-***most important difference*** is that the arrow function ***does inherit the
-context of its parent containing `function`***. An arrow function looks like
-this:
+The arrow function expression (often simply called an "arrow function") is
+yet another way of writing a function expression. They look different from
+"old style" function expressions, but the ***most important difference*** is
+that the arrow function ***inherit the context of its parent containing
+`function` and does not create a context of its own***.
+
+To repeat differently, arrow functions maintain their enclosing execution
+context when evaluating `this`. In them, `this` will be whatever it was in
+the function's enclosing execution environment. As such `this` will be
+resolved at the ***point of execution***.
+
+Many programmers think arrow functions are much more predictable since they
+do not create their own `this` during execution and instead "absorb" the
+context of their enclosing environment.
+
+Since _the whole point_ of an arrow function is to ***not have its own
+execution context***, we should not use `call`, `bind`, or `apply` when
+executing them. Most of the time, you'll see them used like anonyous
+functions passed as first-class data into another function See the `reduce`
+example below. It's typical.
+
+An arrow function looks like this:
 
 ```js
 // The let greeter is merely the assignment, the expression begins at `(`
@@ -388,6 +405,8 @@ Your son, Loki
 */
 ```
 
+
+
 ## Conclusion
 
 You've now learned how to both spot and how to counteract the lost context bug
@@ -407,7 +426,8 @@ need in order to build your own JavaScript library. Enjoy the challenge!
 
 * [foreach][fed]
 * [Arrow Function][arrow]
-
+- [MDN On Why Arrow Functions Help Us leverage `this`][septhis]
 
 [fed]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
 [arrow]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
+[septhis]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions#No_separate_this
