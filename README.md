@@ -326,7 +326,7 @@ An arrow function looks like this:
 ```js
 // The let greeter is merely the assignment, the expression begins at `(`
 let greeter = (nameToGreet) => {
-    let messasge = `Good morning ${nameToGreet}`
+    let message = `Good morning ${nameToGreet}`
     console.log(message)
     return "Greeted: " + nameToGreet
 }
