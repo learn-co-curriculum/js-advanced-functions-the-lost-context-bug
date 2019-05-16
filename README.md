@@ -337,7 +337,7 @@ Which, excluding context-switching differences, is the exact same as:
 
 ```js
 let greeter = function(nameToGreet) {
-    let messasge = `Good morning ${nameToGreet}`
+    let message = `Good morning ${nameToGreet}`
     console.log(message)
     return "Greeted: " + nameToGreet
 }.bind(this)
