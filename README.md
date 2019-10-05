@@ -168,8 +168,8 @@ Per the [forEach documentation][fed], we could pass a `thisArg` argument to
 explicitly provides a context for the function used inside `forEach`. Doing so
 fixes our bug.
 
-> **ASIDE**: This pattern works for `forEach` as well as `map`, `reduce` and
-> all the other collection-processing methods. Consult their documentation to
+> **ASIDE**: This pattern works for `forEach` as well as `map` and
+> other collection-processing methods. Consult their documentation to
 > see where a `thisArg` is expected.
 
 ```js
