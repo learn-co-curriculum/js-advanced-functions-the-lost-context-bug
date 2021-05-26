@@ -126,7 +126,7 @@ let printCard = function() {
     this.signatories.forEach(function(signatory){
         console.log("Debug Inside: " + this)
         // let message = `${this.closing[signatory]}, ${signatory}`
-        console.log(message)
+        // console.log(message)
     })
 }
 
