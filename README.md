@@ -168,13 +168,14 @@ let printCard = function() {
 
 printCard.call(configuration)
 
-# Prints out:
-# Happy Birthday, Odin One-Eye!
-# From Asgard to Nifelheim, you're the best all-father ever.
-#
-# Love,
-# Admiration, respect, and love, Thor
-# Your son, Loki
+/*
+Happy Birthday, Odin One-Eye!
+From Asgard to Nifelheim, you're the best all-father ever.
+
+Love,
+Admiration, respect, and love, Thor
+Your son, Loki
+*/
 ```
 
 In the call to `forEach`, we tell it to use (for its own context) the context
