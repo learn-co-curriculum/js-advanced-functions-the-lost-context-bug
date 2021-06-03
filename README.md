@@ -23,6 +23,9 @@ to proceed.
 
 ## Scenario
 
+To follow along, open the `index.html` file in your browser and open the
+console. You will add your code in `index.js`.
+
 It's the All-Father Odin's birthday. His sons, Thor and Loki, would like to
 print him a birthday greeting using JavaScript. They know how to define
 `Object`s and `function`s, so they've written a simple function that takes an
@@ -70,20 +73,12 @@ From Asgard to Nifelheim, you're the best all-father ever.
 
 Love,
 /Users/heimdall/git_checkouts/fi/jscontext/unnamed/card.js:20
-        let message = `${this.closing[signatory]}, ${signatory}`
-                                     ^
 
-TypeError: Cannot read property 'Thor' of undefined
-    at /Users/heimdall/git_checkouts/fi/jscontext/unnamed/card.js:20:38
+Uncaught TypeError: Cannot read property 'Thor' of undefined
+    at index.js:20
     at Array.forEach (<anonymous>)
-    at Object.printCard (/Users/heimdall/git_checkouts/fi/jscontext/unnamed/card.js:19:22)
-    at Object.<anonymous> (/Users/heimdall/git_checkouts/fi/jscontext/unnamed/card.js:25:11)
-    at Module._compile (internal/modules/cjs/loader.js:799:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:810:10)
-    at Module.load (internal/modules/cjs/loader.js:666:32)
-    at tryModuleLoad (internal/modules/cjs/loader.js:606:12)
-    at Function.Module._load (internal/modules/cjs/loader.js:598:3)
-    at Function.Module.runMain (internal/modules/cjs/loader.js:862:12)
+    at Object.printCard (index.js:19)
+    at index.js:25
 ```
 
 What is going on here?" A quick debug shows that there **very much** is a
@@ -93,8 +88,8 @@ property called `"Thor"` in `configuration.closing`:
 console.log(configuration.closing.Thor) //=> "Admiration, respect, and love"
 ```
 
-Here is one of the most boggling problems in JavaScript: a bug created in the
-shadow of the all-too-easy-to-forget fact that function expressions and
+Here is one of the most mind-boggling problems in JavaScript: a bug created in
+the shadow of the all-too-easy-to-forget fact that function expressions and
 declarations ***inside*** of other functions ***do not automatically*** use the
 same context as the outer function. Think about the rules of implicit context
 assignment before reading on.
@@ -102,22 +97,10 @@ assignment before reading on.
 ## Debugging: Discovering the Nature of the Lost Context Bug
 
 As a first step in getting this code working, let's add some `console.log()`
-calls so we can see what `this` is.
+calls so we can see what `this` is. Let's update our `printCard` function as
+follows:
 
 ```js
-let configuration = {
-    frontContent: "Happy Birthday, Odin One-Eye!",
-    insideContent: "From Asgard to Nifelheim, you're the best all-father ever.\n\nLove,",
-    closing: {
-        "Thor": "Admiration, respect, and love",
-        "Loki": "Your son"
-    },
-    signatories: [
-        "Thor",
-        "Loki"
-    ]
-}
-
 let printCard = function() {
     console.log(this.frontContent)
     console.log(this.insideContent)
@@ -126,7 +109,7 @@ let printCard = function() {
     this.signatories.forEach(function(signatory){
         console.log("Debug Inside: " + this)
         // let message = `${this.closing[signatory]}, ${signatory}`
-        console.log(message)
+        // console.log(message)
     })
 }
 
@@ -153,7 +136,7 @@ the function expression passed to `forEach` is the global object (`window` or
 
 Remember the rules of function invocation. A function defaults to getting the
 global scope as _execution context_ when it is called without "anything to the
-left of a dot.". It **does not** get its parent function's _execution context_
+left of a dot". It **does not** get its parent function's _execution context_
 automatically. There are many ways for programmers to solve this problem. The
 three most common are:
 
@@ -173,19 +156,6 @@ fixes our bug.
 > see where a `thisArg` is expected.
 
 ```js
-let configuration = {
-    frontContent: "Happy Birthday, Odin One-Eye!",
-    insideContent: "From Asgard to Nifelheim, you're the best all-father ever.\n\nLove,",
-    closing: {
-        "Thor": "Admiration, respect, and love",
-        "Loki": "Your son"
-    },
-    signatories: [
-        "Thor",
-        "Loki"
-    ]
-}
-
 let printCard = function() {
     console.log(this.frontContent)
     console.log(this.insideContent)
@@ -214,19 +184,6 @@ A slight variation on this idea would be to invoke `bind` on the function
 expression in the `forEach`:
 
 ```js
-let configuration = {
-    frontContent: "Happy Birthday, Odin One-Eye!",
-    insideContent: "From Asgard to Nifelheim, you're the best all-father ever.\n\nLove,",
-    closing: {
-        "Thor": "Admiration, respect, and love",
-        "Loki": "Your son"
-    },
-    signatories: [
-        "Thor",
-        "Loki"
-    ]
-}
-
 let printCard = function() {
     console.log(this.frontContent)
     console.log(this.insideContent)
@@ -355,20 +312,6 @@ Thus Thor and Loki can fix their problem and wish their father a happy birthday
 most elegantly with the following code:
 
 ```js
-
-let configuration = {
-    frontContent: "Happy Birthday, Odin One-Eye!",
-    insideContent: "From Asgard to Nifelheim, you're the best all-father ever.\n\nLove,",
-    closing: {
-        "Thor": "Admiration, respect, and love",
-        "Loki": "Your son"
-    },
-    signatories: [
-        "Thor",
-        "Loki"
-    ]
-}
-
 let printCard = function() {
     console.log(this.frontContent)
     console.log(this.insideContent)
