@@ -116,7 +116,7 @@ let printCard = function() {
 printCard.call(configuration)
 ```
 
-Produces:
+This produces:
 
 ```text
 Happy Birthday, Odin One-Eye!
