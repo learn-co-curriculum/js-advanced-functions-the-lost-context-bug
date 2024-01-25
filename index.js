@@ -12,13 +12,13 @@ let configuration = {
 }
 
 let printCard = function() {
-  console.log(this.frontContent)
-  console.log(this.insideContent)
-  // Wow! Elegant! And notice the arrow function's `this` is the same
-  // this that printCard has by virtue of configuration being passed
-  // in as a thisArg
-  this.signatories.forEach(s => console.log(`${this.closing[s]}, ${s}`)
-  )
+    console.log(this.frontContent)
+    console.log(this.insideContent)
+
+    this.signatories.forEach(signatory=>{
+        let message = `${this.closing[signatory]}, ${signatory}`
+        console.log(message)
+    })
 }
 
 printCard.call(configuration)
